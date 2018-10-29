@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
-import { Toolbar, withStyles, InputBase,AppBar } from '@material-ui/core';
+import { Toolbar, withStyles, InputBase,AppBar,Button } from '@material-ui/core';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 const styles = theme => ({
     navbar: {
         position: 'relative',
-        backgroundColor: '#000a12'
+        backgroundColor: '#000a12',
+        width:'100%'
     },
     appBar: {
         display: 'flex',
@@ -44,13 +45,13 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+  button: {
+    margin: '2%',
+  },
 });
 
 class NavBar extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { classes } = this.props;
     return (
@@ -70,6 +71,12 @@ class NavBar extends Component {
               }}
             />
           </form>
+            <Button variant="outlined" color="secondary" className={classes.button}>
+            Toggle based on name
+      </Button>
+      <Button variant="outlined" color="secondary" className={classes.button}>
+            Toggle based on marks
+      </Button>
         </Toolbar>
         </AppBar>
       </Grid>

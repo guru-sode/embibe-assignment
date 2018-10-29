@@ -44,6 +44,7 @@ body {
 
   .details-container{
       text-align: center;
+      width: 100%;
   }
 
   @media screen and (max-width: 1200px){
