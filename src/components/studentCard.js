@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
 import '../styles/card.css';
 import { NavLink } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
-class SignIn extends Component {
-    constructor(){
-        super();
+const styles = theme => ({
+  progressContainer: {
+      display: 'flex',
+      justifyContent: 'center'
+  },
+  progress: {
+      margin: theme.spacing.unit * 2,
+      textAlign: 'center',
+      color: '#000a12'
+  }
+});
+
+class StudentCard extends Component {
+    constructor(props){
+        super(props);
         this.state={
           names:[],
           rollNos:[],
@@ -66,14 +82,23 @@ class SignIn extends Component {
       };
 
     render() { 
+      const { classes } = this.props;
         return (
           <div className="container">
           <div className="row">
-          {this.renderCards()}
+          {this.state.names[0]===undefined ?
+          <Grid className={classes.progressContainer} container>
+          <CircularProgress className={classes.progress} size={100} />
+      </Grid> : this.renderCards()
+          }
             </div>
             </div>
           );
     }
 }
- 
-export default SignIn;
+
+StudentCard.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default  withStyles(styles)(StudentCard);

@@ -1,5 +1,22 @@
 import React, { Component } from 'react';
 import '../styles/card.css';
+import { Grid } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+
+
+const styles = theme => ({
+  progressContainer: {
+      display: 'flex',
+      justifyContent: 'center'
+  },
+  progress: {
+      margin: theme.spacing.unit * 2,
+      textAlign: 'center',
+      color: '#000a12'
+  }
+});
 
 class StudentDetails extends Component {
   constructor() {
@@ -17,7 +34,7 @@ class StudentDetails extends Component {
   displayMarks(){
       let marksDOM=[];
       this.state.marks.map((mark,index)=>{
-          marksDOM.push(<h3>{this.state.subjectNames[index]}:{mark}</h3>)
+          marksDOM.push(<h3 key={index}>{this.state.subjectNames[index]}:{mark}</h3>)
           return marksDOM;
       });
       return marksDOM;
@@ -50,15 +67,24 @@ class StudentDetails extends Component {
 }
 
   render() {
+    const { classes } = this.props;
     return (
         <div className="details-container">
-    <h1>{this.state.name}</h1>
+        {this.state.name==='' ?
+        <Grid className={classes.progressContainer} container>
+        <CircularProgress className={classes.progress} size={100} />
+    </Grid> :<div><h1>{this.state.name}</h1>
     <h2>Class:{this.state.standard}</h2>
     <h2>Roll Number:{this.state.rollNo}</h2>
-    <h2>{this.displayMarks()}</h2>
-    </div>
+    {this.displayMarks()}</div>
+        }
+        </div>
     );
   }
 }
 
-export default StudentDetails;
+StudentDetails.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+  
+  export default  withStyles(styles)(StudentDetails);
