@@ -5,12 +5,7 @@ import { Grid } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import {
-  Toolbar,
-  AppBar,
-  Button,
-  TextField
-} from '@material-ui/core';
+import { Toolbar, AppBar, Button, TextField } from '@material-ui/core';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -69,68 +64,84 @@ const styles = theme => ({
   }
 });
 
-let toggleNameflag=false;
-let toggleMarksflag=false;
+let toggleNameflag = false;
+let toggleMarksflag = false;
 
 class StudentCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      names: [],
-      rollNos: [],
-      totalMarks: []
+      students: []
     };
     this.renderCards = this.renderCards.bind(this);
     this.handlSearchChange = this.handlSearchChange.bind(this);
-    this.toggleName=this.toggleName.bind(this);
-    this.toggleMarks=this.toggleMarks.bind(this);
+    this.toggleName = this.toggleName.bind(this);
+    this.toggleMarks = this.toggleMarks.bind(this);
   }
 
   handlSearchChange(event) {
     event.preventDefault();
     console.log(document.getElementById('standard-with-placeholder').value);
-    document.getElementById('standard-with-placeholder').value='';
+    document.getElementById('standard-with-placeholder').value = '';
   }
 
-  toggleName(){
-    if(toggleNameflag===true){
-      let sortNames=this.state.names.sort();
-      let reverse=sortNames.reverse();
-      this.setState({
-        names:reverse
+  toggleName() {
+    if (toggleNameflag === true) {
+      let sortNames = this.state.students.sort(function(a, b) {
+        var nameA = a.name.toLowerCase(),
+          nameB = b.name.toLowerCase();
+        if (nameA < nameB)
+          return -1;
+        if (nameA > nameB) 
+        return 1;
+        return 0;
       });
-
-    }
-    if(toggleNameflag===false){
-      let sortNames=this.state.names.sort();
+      let reverse = sortNames.reverse();
       this.setState({
-        names:sortNames
+        students: reverse
       });
     }
-    toggleNameflag=toggleNameflag ? false:true;
+    if (toggleNameflag === false) {
+      let sortNames = this.state.students.sort(function(a,b){
+        var nameA = a.name.toLowerCase(),
+          nameB = b.name.toLowerCase();
+        if (nameA < nameB)
+          return -1;
+        if (nameA > nameB) 
+        return 1;
+        return 0;
+      });
+      this.setState({
+        student: sortNames
+      });
+    }
+    toggleNameflag = toggleNameflag ? false : true;
   }
 
-  toggleMarks(){
-    if(toggleMarksflag===true){
-      let sortMarks=this.state.totalMarks.sort();
-      let reverse=sortMarks.reverse();
-      this.setState({
-        totalMarks:reverse
+  toggleMarks() {
+    if (toggleMarksflag === true) {
+      let sortMarks = this.state.students.sort(function(a,b){
+        return a.totalMarks-b.totalMarks;
       });
-
-    }
-    if(toggleMarksflag===false){
-      let sortMarks=this.state.totalMarks.sort();
+      let reverse = sortMarks.reverse();
       this.setState({
-        totalMarks:sortMarks
+        students: reverse
       });
     }
-    toggleMarksflag=toggleMarksflag ? false:true;
+    if (toggleMarksflag === false) {
+      let sortMarks = this.state.students.sort(function(a,b){
+        return a.totalMarks-b.totalMarks;
+      });
+      this.setState({
+        students: sortMarks
+      });
+    }
+    toggleMarksflag = toggleMarksflag ? false : true;
   }
 
   renderCards() {
     let displayName = [];
-    this.state.names.map((name, index) => {
+    this.state.students.map((student, index) => {
       displayName.push(
         <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={index}>
           <div className="our-team">
@@ -142,16 +153,16 @@ class StudentCard extends Component {
               />
             </div>
             <div className="team-content">
-              {name}
+              {student["name"]}
               <h4 className="title">
                 Roll Number:
-                {this.state.rollNos[index]}
+                {student["rollNo"]}
               </h4>
               <h4 className="title">
                 Total marks:
-                {this.state.totalMarks[index]}
+                {student["totalMarks"]}
               </h4>
-              <NavLink to={`/${this.state.rollNos[index]}`}>
+              <NavLink to={`/${student["rollNo"]}`}>
                 <button type="button" className="details">
                   Details
                 </button>
@@ -166,32 +177,32 @@ class StudentCard extends Component {
   }
 
   componentDidMount = () => {
-    let names = [];
-    let rollNos = [];
     let id;
     let marks;
     let sum = 0;
     let totalMarks = [];
+    let students = [];
     fetch('https://api.myjson.com/bins/1dlper')
       .then(response => response.json())
       .then(data => {
         id = Object.keys(data);
         id.map(student => {
-          names.push(data[student]['name']);
-          rollNos.push(data[student]['rollNo']);
           marks = Object.values(data[student]['marks']);
           marks.map(mark => {
             sum = sum + mark;
             return sum;
           });
           totalMarks.push(sum);
+          students.push({
+            name: data[student]['name'],
+            rollNo: data[student]['rollNo'],
+            totalMarks: sum
+          });
           sum = 0;
           return totalMarks;
         });
         this.setState({
-          names,
-          rollNos,
-          totalMarks
+          students
         });
       });
   };
@@ -207,10 +218,7 @@ class StudentCard extends Component {
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
-                <TextField
-                  id="standard-with-placeholder"
-                  label="Search..."
-                />
+                <TextField id="standard-with-placeholder" label="Search..." />
               </form>
               <Button
                 variant="outlined"
@@ -240,7 +248,7 @@ class StudentCard extends Component {
           </AppBar>
         </Grid>
         <div className="row">
-          {this.state.names[0] === undefined ? (
+          {this.state.students[0] === undefined ? (
             <Grid className={classes.progressContainer} container>
               <CircularProgress className={classes.progress} size={100} />
             </Grid>
