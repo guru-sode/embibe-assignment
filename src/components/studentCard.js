@@ -81,7 +81,19 @@ class StudentCard extends Component {
 
   handlSearchChange(event) {
     event.preventDefault();
-    console.log(document.getElementById('standard-with-placeholder').value);
+    console.log('submit');
+    let search=document.getElementById('standard-with-placeholder').value;
+    let reg=new RegExp(search);
+    let newStudents=[];
+    this.state.students.map((student)=>{
+      if(reg.test(student["name"])){
+        newStudents.push(student)
+      }
+      return newStudents
+    })
+    this.setState({
+      students:newStudents
+    })
     document.getElementById('standard-with-placeholder').value = '';
   }
 
