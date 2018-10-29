@@ -80,9 +80,7 @@ class StudentCard extends Component {
   }
 
   handlSearchChange(event) {
-    event.preventDefault();
-    console.log('submit');
-    let search=document.getElementById('standard-with-placeholder').value;
+    let search=event.target.value;
     let reg=new RegExp(search);
     let newStudents=[];
     this.state.students.map((student)=>{
@@ -91,10 +89,11 @@ class StudentCard extends Component {
       }
       return newStudents
     })
-    this.setState({
-      students:newStudents
-    })
-    document.getElementById('standard-with-placeholder').value = '';
+    if(newStudents[0]!==undefined){
+      this.setState({
+        students:newStudents
+      });
+    }
   }
 
   toggleName() {
@@ -230,16 +229,8 @@ class StudentCard extends Component {
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
-                <TextField id="standard-with-placeholder" label="Search..." />
+                <TextField id="standard-with-placeholder" label="Search..." onChange={this.handlSearchChange}/>
               </form>
-              <Button
-                variant="outlined"
-                color="secondary"
-                className={classes.button}
-                onClick={this.handlSearchChange}
-              >
-                Submit
-              </Button>
               <Button
                 variant="outlined"
                 color="secondary"
