@@ -81,7 +81,8 @@ class StudentCard extends Component {
 
   handlSearchChange(event) {
     let search=event.target.value;
-    let reg=new RegExp(search);
+    let flag='i';
+    let reg=new RegExp(search,flag);
     let newStudents=[];
     this.state.students.map((student)=>{
       if(reg.test(student["name"])){
@@ -173,10 +174,14 @@ class StudentCard extends Component {
                 Total marks:
                 {student["totalMarks"]}
               </h4>
-              <NavLink to={`/${student["rollNo"]}`}>
-                <button type="button" className="details">
-                  Details
-                </button>
+              <NavLink to={`/${student["rollNo"]}`} style={{ textDecoration: 'none' }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={this.toggleMarks}
+              >
+                Details
+              </Button>
               </NavLink>
             </div>
           </div>

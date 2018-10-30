@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import '../styles/card.css';
-import { Grid } from '@material-ui/core';
+import '../styles/details.css';
+import { Grid,Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import Highcharts from 'highcharts';
 
 
 const styles = theme => ({
@@ -40,6 +41,40 @@ class StudentDetails extends Component {
       return marksDOM;
   }
 
+  showGraph(){
+    var returnObj = {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Marks obtained per each subject'
+        },
+        xAxis: {
+          categories: []
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Marks'
+          }
+        },
+        legend: {
+          reversed: true
+        },
+        plotOptions: {
+          series: {
+            stacking: 'normal'
+          }
+        },
+        series: [{
+            name:this.state.name,
+            data:this.state.marks
+        }]
+      };
+      returnObj.xAxis.categories=this.state.subjectNames;
+      Highcharts.chart('highchart-container', returnObj);
+  }
+
   componentDidMount = () => {
       let name;
       let standard;
@@ -73,12 +108,32 @@ class StudentDetails extends Component {
         {this.state.name==='' ?
         <Grid className={classes.progressContainer} container>
         <CircularProgress className={classes.progress} size={100} />
-    </Grid> :<div><h1>{this.state.name}</h1>
-    <h2>Class:{this.state.standard}</h2>
-    <h2>Roll Number:{this.state.rollNo}</h2>
-    {this.displayMarks()}</div>
-        }
+    </Grid> :
+    <div id="vcard">
+        <div id="card-content">
+          <h3>Student details</h3>
+          <div id="profile">
+            <span className="avatar">
+              <span className="typicons-user icon" />
+              <span className="info">
+                {this.state.name}
+                <br />
+                Class:
+                {this.state.standard}
+                <br />
+                Marks obtained:
+                {this.displayMarks()}
+              </span>
+            </span>
+          </div>
         </div>
+        <Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
+            Show Graph
+      </Button>
+        </div>
+        }
+        <div id="highchart-container"></div>
+         </div> 
     );
   }
 }
