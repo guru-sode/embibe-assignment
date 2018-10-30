@@ -125,11 +125,11 @@ class StudentDetails extends Component {
                 {this.displayMarks()}
               </span>
             </span>
-          </div>
-        </div>
-        <Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
+            <Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
             Show Graph
       </Button>
+          </div>
+        </div>
         </div>
         }
         <div id="highchart-container"></div>
