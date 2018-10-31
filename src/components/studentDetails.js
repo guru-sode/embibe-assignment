@@ -85,19 +85,27 @@ class StudentDetails extends Component {
     fetch('https://api.myjson.com/bins/1dlper')
     .then(response => response.json())
     .then(data => {
+      if(data[this.props.match.params.id]!==undefined){
         name=data[this.props.match.params.id]["name"];
         standard=data[this.props.match.params.id]["class"];
         rollNo=data[this.props.match.params.id]["rollNo"];
         subjects=data[this.props.match.params.id]["marks"];
         marks=Object.values(subjects);
         subjectNames=Object.keys(subjects);
-        this.setState({
+          this.setState({
             name,
             standard,
             rollNo,
             marks,
             subjectNames
         });
+      }
+      else{
+        this.setState({
+          name:'Roll Number not found',
+          standard:'Not applicable',
+        })
+      }
     });
 }
 

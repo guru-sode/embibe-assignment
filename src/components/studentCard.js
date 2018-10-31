@@ -12,7 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 const styles = theme => ({
   navbar: {
     position: 'relative',
-    backgroundColor: '#000a12',
+    backgroundColor: '#ffffff',
     width: '100%'
   },
   appBar: {
@@ -24,7 +24,8 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: '50%',
-    color: 'white'
+    color: 'white',
+    fontSize:'20px',
   },
   search: {
     position: 'relative',
@@ -33,12 +34,12 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25)
     },
-    marginLeft: 0,
+    marginLeft: '2%',
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing.unit,
       width: 'auto'
-    }
+    },
   },
   searchIcon: {
     width: theme.spacing.unit * 9,
@@ -48,10 +49,11 @@ const styles = theme => ({
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    color:'black'
   },
   button: {
-    margin: '2%'
+    margin: '2%',
   },
   progressContainer: {
     display: 'flex',
@@ -59,8 +61,10 @@ const styles = theme => ({
   },
   progress: {
     margin: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: '#000a12'
+    justifyContent: 'center',
+    marginLeft:'900px',
+    marginTop:'450px',
+    color: '#000a12',
   }
 });
 
@@ -71,7 +75,8 @@ class StudentCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      students: []
+      students: [],
+      copyForSearch:[]
     };
     this.renderCards = this.renderCards.bind(this);
     this.handlSearchChange = this.handlSearchChange.bind(this);
@@ -80,11 +85,11 @@ class StudentCard extends Component {
   }
 
   handlSearchChange(event) {
-    let search=event.target.value;
+    let search='^'+event.target.value;
     let flag='i';
     let reg=new RegExp(search,flag);
     let newStudents=[];
-    this.state.students.map((student)=>{
+    this.state.copyForSearch.map((student)=>{
       if(reg.test(student["name"])){
         newStudents.push(student)
       }
@@ -218,7 +223,8 @@ class StudentCard extends Component {
           return totalMarks;
         });
         this.setState({
-          students
+          students,
+          copyForSearch:students
         });
       });
   };
@@ -227,9 +233,19 @@ class StudentCard extends Component {
     const { classes } = this.props;
     return (
       <div className="container">
+      {this.state.students[0] === undefined ? (
+        <Grid className={classes.progressContainer} container>
+          <CircularProgress className={classes.progress} size={100} />
+        </Grid>
+      ) : (
         <Grid className={classes.appBar} container>
           <AppBar className={classes.navbar} position="absolute">
             <Toolbar>
+            <img
+                className="img-fluid"
+                src={require('../data/embibefullLogo.svg')}
+                alt="student"
+              />
               <form className={classes.search} noValidate autoComplete="off">
                 <div className={classes.searchIcon}>
                   <SearchIcon />
@@ -238,33 +254,30 @@ class StudentCard extends Component {
               </form>
               <Button
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 className={classes.button}
                 onClick={this.toggleName}
+                id="sort-button"
               >
-                Sort based on name
+                Sort by name
               </Button>
               <Button
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 className={classes.button}
                 onClick={this.toggleMarks}
+                id="sort-button"
               >
-                Sort based on marks
+                Sort by marks
               </Button>
             </Toolbar>
           </AppBar>
         </Grid>
-        <div className="row">
-          {this.state.students[0] === undefined ? (
-            <Grid className={classes.progressContainer} container>
-              <CircularProgress className={classes.progress} size={100} />
-            </Grid>
-          ) : (
-            this.renderCards()
-          )}
+      )}
+        <div className="row"> 
+        {this.renderCards()}
         </div>
-      </div>
+    </div>
     );
   }
 }
