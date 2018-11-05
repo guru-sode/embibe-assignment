@@ -31,7 +31,8 @@ class StudentDetails extends Component {
         standard:'',
         rollNo:'',
         marks:[],
-        subjectNames:[]
+        subjectNames:[],
+        isValid: true
     };
     this.displayMarks=this.displayMarks.bind(this);
   }
@@ -39,7 +40,7 @@ class StudentDetails extends Component {
   displayMarks(){
       let marksDOM=[];
       this.state.marks.map((mark,index)=>{
-          marksDOM.push(<h3 key={index}>{this.state.subjectNames[index]}:{mark}</h3>)
+          marksDOM.push(<h3 key={index}>{this.state.subjectNames[index].toUpperCase()}:{mark}</h3>)
           return marksDOM;
       });
       return marksDOM;
@@ -106,11 +107,13 @@ class StudentDetails extends Component {
       }
       else{
         this.setState({
-          name:'Roll Number not found',
-          standard:'Not applicable',
+          name:'Not found',
+          isValid: false
         })
       }
-    });
+    }).catch(err=>{
+      console.log(err);   
+    })
 }
 
   render() {
@@ -121,31 +124,34 @@ class StudentDetails extends Component {
         <Grid className={classes.progressContainer} container>
         <CircularProgress className={classes.progress} size={100} />
     </Grid> :
-    <div id="vcard">
-        <div id="card-content">
-          <h3>Student details</h3>
-          <div id="profile">
-            <span className="avatar">
-              <span className="typicons-user icon" />
-              <span className="info">
-                {this.state.name}
-                <br />
-                Class:
-                {this.state.standard}
-                <br />
-                Marks obtained:
-                {this.displayMarks()}
-              </span>
-            </span>
+    this.state.isValid ? (    <div id="vcard">
+    <div id="card-content">
+      <h3>Student details</h3>
+      <div id="profile">
+        <span className="avatar">
+          <span className="typicons-user icon" />
+          <span className="info">
+            {this.state.name}
+            <br />
+            Class:
+            {this.state.standard}
+            <br />
+            Marks obtained:
+            {this.displayMarks()}
+            <br />
             <Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
-            Show Graph
-      </Button>
-      <NavLink to="/" style={{ textDecoration: 'none' }}><Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
-            Back
-      </Button></NavLink>
-          </div>
-        </div>
-        </div>
+        Show Graph
+  </Button>
+  <NavLink to="/" style={{ textDecoration: 'none' }}><Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
+        Back
+  </Button></NavLink>
+          </span>
+        </span>
+      </div>
+    </div>
+    </div>):(
+      <h1>Roll Number not found</h1>
+    )
         }
         <div id="highchart-container"></div>
          </div> 
