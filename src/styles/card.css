@@ -11,12 +11,23 @@ body {
   
   .our-team {
     padding: 5%;
-    margin: 5%;
+    margin: 2%;
     background-color: #f7f5ec;
     text-align: center;
     overflow: hidden;
     position: relative;
     font-size: 50px;
+  }
+
+  .our-team-empty{
+    padding: 5%;
+    margin: 2%;
+    background-color: #f7f5ec;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    font-size: 50px;
+    width: 100%;
   }
   
   .our-team .picture {
@@ -40,7 +51,8 @@ body {
   }
 
   .row{
-      margin-top: 5%;
+      width: 100%;
+      margin-top: 1%;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
   }

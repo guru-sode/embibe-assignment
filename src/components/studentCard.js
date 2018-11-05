@@ -5,59 +5,79 @@ import { Grid } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { Toolbar, AppBar, Button, TextField } from '@material-ui/core';
+import { Toolbar, AppBar, Button } from '@material-ui/core';
+import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
+import Typography from '@material-ui/core/Typography';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = theme => ({
-  navbar: {
-    // position: 'relative',
-    backgroundColor: '#ffffff',
+  root: {
     width: '100%',
   },
-  appBar: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
+  grow: {
+    flexGrow: 1,
   },
-  searchTextField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: '50%',
-    color: 'white',
-    fontSize: '20px',
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
   },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginLeft: '72%',
+    marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing.unit,
-      width: 'auto'
+      width: 'auto',
     },
+    color:'black'
   },
   searchIcon: {
     width: theme.spacing.unit * 9,
     height: '100%',
     position: 'absolute',
-    marginLeft: '70%',
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: 'black'
+  },
+  inputRoot: {
+    color: 'inherit',
+    width: '100%',
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: 120,
+      '&:focus': {
+        width: 200,
+      },
+    },
   },
   button: {
     margin: '2%',
     border: '1px solid black',
+    color:'white',
   },
   progressContainer: {
     display: 'flex',
@@ -71,8 +91,8 @@ const styles = theme => ({
     color: '#000a12'
   },
   close: {
-    padding: theme.spacing.unit / 2,
-  },
+    padding: theme.spacing.unit / 2
+  }
 });
 
 let toggleNameflag = false;
@@ -92,19 +112,19 @@ class StudentCard extends Component {
     this.handlSearchChange = this.handlSearchChange.bind(this);
     this.toggleName = this.toggleName.bind(this);
     this.toggleMarks = this.toggleMarks.bind(this);
-    this.emptyCard=this.emptyCard.bind(this);
+    this.emptyCard = this.emptyCard.bind(this);
   }
 
-  emptyCard(){
-    return(
-      <div className="col-12 col-sm-6 col-md-4 col-lg-3" >
-      <div className="our-team">
-        <div className="team-content">
+  emptyCard() {
+    return (
+      // <div className="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div className="our-team-empty">
+          {/* <div className="team-content"> */}
           No results found
+          {/* </div> */}
         </div>
-      </div>
-    </div>
-    )
+      // </div>
+    );
   }
 
   handlSearchChange(event) {
@@ -123,11 +143,10 @@ class StudentCard extends Component {
         students: newStudents,
         searchResult: true
       });
-    }
-    else{
+    } else {
       this.setState({
         searchResult: false
-      })
+      });
     }
   }
 
@@ -136,8 +155,10 @@ class StudentCard extends Component {
       return;
     }
 
-    this.setState({ nameOpen: false,
-    marksOpen: false });
+    this.setState({
+      nameOpen: false,
+      marksOpen: false
+    });
   };
 
   toggleName() {
@@ -211,10 +232,10 @@ class StudentCard extends Component {
             </div>
             <div className="team-content">
               {student['name']}
-              <h4 className="title">
+              <h1 className="title">
                 Roll Number:
                 {student['rollNo']}
-              </h4>
+              </h1>
               <h4 className="title">
                 Total marks:
                 {student['totalMarks']}
@@ -284,25 +305,30 @@ class StudentCard extends Component {
             <CircularProgress className={classes.progress} size={100} />
           </Grid>
         ) : (
-          <div className={classes.appBar} container>
-            <AppBar className={classes.navbar}>
-              <Toolbar>
-                <img
-                  className="img-fluid"
-                  src={require('../data/embibefullLogo.svg')}
-                  alt="student"
+          <div className={classes.root}>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+                <MenuIcon />
+              </IconButton>
+              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                Dashboard
+              </Typography>
+              <div className={classes.grow} />
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  onChange={this.handlSearchChange}
                 />
-                <form className={classes.search} noValidate autoComplete="off">
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <TextField
-                    id="standard-with-placeholder"
-                    label="Search..."
-                    onChange={this.handlSearchChange}
-                  />
-                </form>
-                <Button
+              </div>
+              <Button
                   variant="text"
                   color="primary"
                   className={classes.button}
@@ -321,7 +347,13 @@ class StudentCard extends Component {
                   ContentProps={{
                     'aria-describedby': 'message-id'
                   }}
-                  message={<span id="message-id">{toggleNameflag===false ? ('Sorted by names (Z-A)'):('Sorted by names (A-Z)')}</span>}
+                  message={
+                    <span id="message-id">
+                      {toggleNameflag === false
+                        ? 'Sorted by names (Z-A)'
+                        : 'Sorted by names (A-Z)'}
+                    </span>
+                  }
                   action={[
                     <IconButton
                       key="close"
@@ -353,7 +385,13 @@ class StudentCard extends Component {
                   ContentProps={{
                     'aria-describedby': 'message-id'
                   }}
-                  message={<span id="message-id">{toggleMarksflag===false ? ('Sorted by marks (descending)'):('Sorted by names (ascending)')}</span>}
+                  message={
+                    <span id="message-id">
+                      {toggleMarksflag === false
+                        ? 'Sorted by marks (descending)'
+                        : 'Sorted by names (ascending)'}
+                    </span>
+                  }
                   action={[
                     <IconButton
                       key="close"
@@ -366,11 +404,13 @@ class StudentCard extends Component {
                     </IconButton>
                   ]}
                 />
-              </Toolbar>
-            </AppBar>
-          </div>
+            </Toolbar>
+          </AppBar>
+        </div>
         )}
-        <div className="row">{this.state.searchResult ?(this.renderCards()):(this.emptyCard())}</div>
+        <div className="row">
+          {this.state.searchResult ? this.renderCards() : this.emptyCard()}
+        </div>
       </div>
     );
   }
