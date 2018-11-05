@@ -54,6 +54,7 @@ const styles = theme => ({
   },
   button: {
     margin: '2%',
+    border:'1px solid black'
   },
   progressContainer: {
     display: 'flex',
@@ -253,20 +254,18 @@ class StudentCard extends Component {
                 <TextField id="standard-with-placeholder" label="Search..." onChange={this.handlSearchChange}/>
               </form>
               <Button
-                variant="outlined"
+                variant="text"
                 color="primary"
                 className={classes.button}
                 onClick={this.toggleName}
-                id="sort-button"
               >
                 Sort by name
               </Button>
               <Button
-                variant="outlined"
+                variant="text"
                 color="primary"
                 className={classes.button}
                 onClick={this.toggleMarks}
-                id="sort-button"
               >
                 Sort by marks
               </Button>

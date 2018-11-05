@@ -5,6 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
+import { NavLink } from 'react-router-dom';
 
 
 const styles = theme => ({
@@ -16,6 +17,9 @@ const styles = theme => ({
       margin: theme.spacing.unit * 2,
       textAlign: 'center',
       color: '#000a12'
+  },
+  button:{
+    margin:'2%'
   }
 });
 
@@ -136,6 +140,9 @@ class StudentDetails extends Component {
             <Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
             Show Graph
       </Button>
+      <NavLink to="/" style={{ textDecoration: 'none' }}><Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
+            Back
+      </Button></NavLink>
           </div>
         </div>
         </div>
