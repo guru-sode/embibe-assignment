@@ -84,6 +84,9 @@ class Login extends Component {
         if(this.state.errorFlagEmail===false && this.state.errorFlagPassword===false){
             document.cookie= `username=${this.state.email};password=${this.state.password}; path=/`;
         }
+        else{
+            alert('Enter valid mail id and password');
+        }
     }
 
     render() {
@@ -109,7 +112,7 @@ class Login extends Component {
                                 autoComplete="email"
                                 margin="normal"
                                 variant="outlined"
-                                helperText={this.state.errorFlagEmail ? 'Invalid Email' : ''}
+                                required
                             />
                             <TextField
                                 id="password-input"
@@ -120,7 +123,7 @@ class Login extends Component {
                                 name="password"
                                 margin="normal"
                                 variant="outlined"
-                                helperText={this.state.errorFlagPassword ? 'Invalid Password' : ''}
+                                required
                             />
                         </CardContent>
                         <CardActions className={classes.loginButtonsContainer}>

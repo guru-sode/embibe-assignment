@@ -105,7 +105,8 @@ class StudentCard extends Component {
       copyForSearch: [],
       nameOpen: false,
       marksOpen: false,
-      searchResult: true
+      searchResult: true,
+      isFetching: true
     };
     this.renderCards = this.renderCards.bind(this);
     this.handlSearchChange = this.handlSearchChange.bind(this);
@@ -116,13 +117,9 @@ class StudentCard extends Component {
 
   emptyCard() {
     return (
-      // <div className="col-12 col-sm-6 col-md-4 col-lg-3">
         <div className="our-team-empty">
-          {/* <div className="team-content"> */}
           No results found
-          {/* </div> */}
         </div>
-      // </div>
     );
   }
 
@@ -291,15 +288,19 @@ class StudentCard extends Component {
         });
       })
       .catch(err => {
-        console.log('Cannot fetch');
+        console.log(err);
+        this.setState({
+          isFetching: false
+        })
       });
   };
 
   render() {
     const { classes } = this.props;
     return (
+      this.state.isFetching ? 
       <div className="container">
-        {this.state.students[0] === undefined ? (
+        {this.state.students[0] === undefined  ? (
           <Grid className={classes.progressContainer} container>
             <CircularProgress className={classes.progress} size={100} />
           </Grid>
@@ -334,11 +335,11 @@ class StudentCard extends Component {
                 </Button>
                 <Snackbar
                   anchorOrigin={{
-                    vertical: 'bottom',
+                    vertical: 'top',
                     horizontal: 'center'
                   }}
                   open={this.state.nameOpen}
-                  autoHideDuration={1000}
+                  autoHideDuration={2000}
                   onClose={this.handleClose}
                   ContentProps={{
                     'aria-describedby': 'message-id'
@@ -372,11 +373,11 @@ class StudentCard extends Component {
                 </Button>
                 <Snackbar
                   anchorOrigin={{
-                    vertical: 'bottom',
+                    vertical: 'top',
                     horizontal: 'center'
                   }}
                   open={this.state.marksOpen}
-                  autoHideDuration={1000}
+                  autoHideDuration={2000}
                   onClose={this.handleClose}
                   ContentProps={{
                     'aria-describedby': 'message-id'
@@ -407,7 +408,7 @@ class StudentCard extends Component {
         <div className="row">
           {this.state.searchResult ? this.renderCards() : this.emptyCard()}
         </div>
-      </div>
+      </div> : (<h1>Error in fetching</h1>)
     );
   }
 }

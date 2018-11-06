@@ -32,7 +32,8 @@ class StudentDetails extends Component {
         rollNo:'',
         marks:[],
         subjectNames:[],
-        isValid: true
+        isValid: true,
+        isFetching: true
     };
     this.displayMarks=this.displayMarks.bind(this);
   }
@@ -112,13 +113,16 @@ class StudentDetails extends Component {
         })
       }
     }).catch(err=>{
-      console.log(err);   
+      this.setState({
+        isFetching: false
+      })   
     })
 }
 
   render() {
     const { classes } = this.props;
     return (
+      this.state.isFetching ?
         <div className="details-container">
         {this.state.name==='' ?
         <div className={classes.progressContainer}>
@@ -150,7 +154,7 @@ class StudentDetails extends Component {
     )
         }
         <div id="highchart-container" style={{minWidth: '310px', maxWidth: '800px', height: '500px', margin: '10%'}}></div>
-         </div> 
+         </div>:(<h1>Error in fetching</h1>)
     );
   }
 }
