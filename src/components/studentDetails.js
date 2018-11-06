@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/details.css';
-import { Grid,Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -121,13 +121,11 @@ class StudentDetails extends Component {
     return (
         <div className="details-container">
         {this.state.name==='' ?
-        <Grid className={classes.progressContainer} container>
+        <div className={classes.progressContainer}>
         <CircularProgress className={classes.progress} size={100} />
-    </Grid> :
+    </div> :
     this.state.isValid ? (    <div id="vcard">
-    <div id="card-content">
       <h3>Student details</h3>
-      <div id="profile">
         <span className="avatar">
           <span className="typicons-user icon" />
           <span className="info">
@@ -147,13 +145,11 @@ class StudentDetails extends Component {
   </Button></NavLink>
           </span>
         </span>
-      </div>
-    </div>
     </div>):(
       <h1>Roll Number not found</h1>
     )
         }
-        <div id="highchart-container"></div>
+        <div id="highchart-container" style={{minWidth: '310px', maxWidth: '800px', height: '500px', margin: '10%'}}></div>
          </div> 
     );
   }

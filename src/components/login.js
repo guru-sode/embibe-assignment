@@ -9,7 +9,7 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: 'center',
         margin:'50%',
-        marginLeft:'50%'
+        marginLeft:'60%',
     },
     card: {
         width: 400,
@@ -55,20 +55,35 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
+            errorFlagEmail: true,
+            errorFlagPassword: true
         };
     }
 
     handleEmailChange = (e) => {
-        this.setState({ email: e.target.value })
+        this.setState({ email: e.target.value,errorFlagEmail: false, })
     }
 
 
     handlePasswordChange = (e) => {
-        this.setState({ password: e.target.value })
+        this.setState({ password: e.target.value,errorFlagPassword: false })
     }
 
     submitLoginForm = () => {
-        document.cookie= `username=${this.state.email};password=${this.state.password}; path=/`;
+        if(this.state.email===''){
+            this.setState({
+                errorFlagEmail: true
+            })
+        }
+        if(this.state.password===''){
+            this.setState({
+                errorFlagPassword: true
+            })
+        }
+        console.log(this.state.errorFlagEmail)
+        if(this.state.errorFlagEmail===false && this.state.errorFlagPassword===false){
+            document.cookie= `username=${this.state.email};password=${this.state.password}; path=/`;
+        }
     }
 
     render() {
@@ -76,7 +91,7 @@ class Login extends Component {
         const { classes } = this.props;
         return (
             <div>
-            {document.cookie==='' ? (
+            {!(document.cookie.includes('username')) ? (
                 <Grid container className={classes.main}>
                 <Grid item>
                     <Card className={classes.card}>
@@ -94,6 +109,7 @@ class Login extends Component {
                                 autoComplete="email"
                                 margin="normal"
                                 variant="outlined"
+                                helperText={this.state.errorFlagEmail ? 'Invalid Email' : ''}
                             />
                             <TextField
                                 id="password-input"
@@ -104,6 +120,7 @@ class Login extends Component {
                                 name="password"
                                 margin="normal"
                                 variant="outlined"
+                                helperText={this.state.errorFlagPassword ? 'Invalid Password' : ''}
                             />
                         </CardContent>
                         <CardActions className={classes.loginButtonsContainer}>

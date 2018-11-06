@@ -13,7 +13,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = theme => ({
   root: {
@@ -306,12 +305,9 @@ class StudentCard extends Component {
           </Grid>
         ) : (
           <div className={classes.root}>
-          <AppBar position="static">
+          <AppBar>
             <Toolbar>
-              <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                <MenuIcon />
-              </IconButton>
-              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+              <Typography className={classes.title} variant="h3" color="inherit" noWrap>
                 Dashboard
               </Typography>
               <div className={classes.grow} />
