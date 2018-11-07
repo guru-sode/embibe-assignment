@@ -216,6 +216,7 @@ class StudentCard extends Component {
   }
 
   renderCards() {
+    console.log(this.props.students);
     let displayName = [];
     this.state.students.map((student, index) => {
       displayName.push(
@@ -260,8 +261,7 @@ class StudentCard extends Component {
   }
 
   componentDidMount = () => {
-    let data=this.props.loadData();
-    console.log(this.props.data);
+    this.props.loadData();
     let id;
     let marks;
     let sum = 0;
@@ -420,7 +420,7 @@ The link you followed may be broken, or the page may have been removed.</h1>)
 
 const mapStateToProps = state => {
   return {
-    data: state.students
+    students: state.students
   };
 };
 

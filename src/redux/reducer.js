@@ -6,7 +6,7 @@ const mainReducer=(state=defaultState,action)=>{
     case "GET_STUDENTS":
     return {
       ...state,
-      students:'Guru'  
+      students:action.students  
     }
     default:
     return {
