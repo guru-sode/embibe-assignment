@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Grid, TextField, Card, CardContent, Button, CardActions, withStyles, Typography } from '@material-ui/core';
+import { TextField, Card, CardContent, Button, CardActions, withStyles, Typography } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import StudentCard from './studentCard';
 
 const styles = theme => ({
     main: {
-        display: 'flex',
+        // display: 'flex',
         justifyContent: 'center',
-        margin:'50%',
-        marginLeft:'60%',
+        marginLeft: '700px',
+        marginTop: '300px',
     },
     card: {
         width: 400,
@@ -62,6 +62,7 @@ class Login extends Component {
 
     handleEmailChange = (e) => {
         this.setState({ email: e.target.value,errorFlagEmail: false, })
+        console.log(this.state.email);
     }
 
 
@@ -95,8 +96,8 @@ class Login extends Component {
         return (
             <div>
             {!(document.cookie.includes('username')) ? (
-                <Grid container className={classes.main}>
-                <Grid item>
+                <div  className={classes.main}>
+                <div item>
                     <Card className={classes.card}>
                         <Typography component="h1" variant="h4">
                             Login
@@ -130,8 +131,8 @@ class Login extends Component {
                            <NavLink to="/"><Button onClick={this.submitLoginForm} variant="contained" className={classes.loginButton} align="end">Login</Button></NavLink>
                         </CardActions>
                     </Card>
-                </Grid>
-            </Grid>
+                </div>
+            </div>
             ):(<Route exact path="/" component={StudentCard} />)}
             </div>
         );

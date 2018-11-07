@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Toolbar, AppBar, Button } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -13,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
+import { loadData } from '../redux/actions';
 
 const styles = theme => ({
   root: {
@@ -44,7 +46,7 @@ const styles = theme => ({
       marginLeft: theme.spacing.unit,
       width: 'auto',
     },
-    color:'black'
+    color:'inherit'
   },
   searchIcon: {
     width: theme.spacing.unit * 9,
@@ -258,6 +260,8 @@ class StudentCard extends Component {
   }
 
   componentDidMount = () => {
+    let data=this.props.loadData();
+    console.log(this.props.data);
     let id;
     let marks;
     let sum = 0;
@@ -385,8 +389,8 @@ class StudentCard extends Component {
                   message={
                     <span id="message-id">
                       {toggleMarksflag === false
-                        ? 'Sorted by marks (descending)'
-                        : 'Sorted by names (ascending)'}
+                        ? 'Sorted by marks (high-low)'
+                        : 'Sorted by names (low-high)'}
                     </span>
                   }
                   action={[
@@ -408,13 +412,25 @@ class StudentCard extends Component {
         <div className="row">
           {this.state.searchResult ? this.renderCards() : this.emptyCard()}
         </div>
-      </div> : (<h1>Error in fetching</h1>)
+      </div> : (<h1>This page isn't available
+The link you followed may be broken, or the page may have been removed.</h1>)
     );
   }
 }
 
-StudentCard.propTypes = {
-  classes: PropTypes.object.isRequired
+const mapStateToProps = state => {
+  return {
+    data: state.students
+  };
 };
 
-export default withStyles(styles)(StudentCard);
+const mapDispatchToProps = dispatch => {
+  return {
+    loadData: () => dispatch(loadData()),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(styles)
+)(StudentCard);

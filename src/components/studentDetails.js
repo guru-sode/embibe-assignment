@@ -154,7 +154,8 @@ class StudentDetails extends Component {
     )
         }
         <div id="highchart-container" style={{minWidth: '310px', maxWidth: '800px', height: '500px', margin: '10%'}}></div>
-         </div>:(<h1>Error in fetching</h1>)
+         </div>:(<h1>This page isn't available
+The link you followed may be broken, or the page may have been removed.</h1>)
     );
   }
 }
