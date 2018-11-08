@@ -1,3 +1,4 @@
+
 let defaultState=[];
 
 const mainReducer=(state=defaultState,action)=>{
@@ -5,8 +6,10 @@ const mainReducer=(state=defaultState,action)=>{
   switch(action.type){
     case "GET_STUDENTS":
     return {
-      ...state,
-      students:action.students  
+      state:action.students,
+      students:action.students,
+      isFetching:action.isFetching,
+      rawData:action.rawData  
     }
     default:
     return {

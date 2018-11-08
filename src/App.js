@@ -3,8 +3,15 @@ import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import StudentDetails from './components/studentDetails';
 import Login from './components/login';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { loadData } from '../src/redux/actions';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.props.loadData();
+  }
   render() {
     // document.cookie.split(";")
     // .forEach(function (c) { 
@@ -21,4 +28,18 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    rawData: state.rawData
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadData: () => dispatch(loadData()),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+)(App);

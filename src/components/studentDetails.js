@@ -6,6 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { loadData } from '../redux/actions';
 
 
 const styles = theme => ({
@@ -24,8 +27,8 @@ const styles = theme => ({
 });
 
 class StudentDetails extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state={
         name:'',
         standard:'',
@@ -39,6 +42,7 @@ class StudentDetails extends Component {
   }
 
   displayMarks(){
+    console.log(this.props.students,'in details');
       let marksDOM=[];
       this.state.marks.map((mark,index)=>{
           marksDOM.push(<h3 key={index}>{this.state.subjectNames[index].toUpperCase()}:{mark}</h3>)
@@ -82,20 +86,22 @@ class StudentDetails extends Component {
   }
 
   componentDidMount = () => {
+    let self=this
+    setTimeout(()=>{
+      self.setState({
+        data: this.props.rawData
+      });
       let name;
       let standard;
       let rollNo;
       let subjects;
       let marks;
       let subjectNames;
-    fetch('https://api.myjson.com/bins/1dlper')
-    .then(response => response.json())
-    .then(data => {
-      if(data[this.props.match.params.id]!==undefined){
-        name=data[this.props.match.params.id]["name"];
-        standard=data[this.props.match.params.id]["class"];
-        rollNo=data[this.props.match.params.id]["rollNo"];
-        subjects=data[this.props.match.params.id]["marks"];
+      if(this.state.data[this.props.match.params.id]!==undefined){
+        name=this.state.data[this.props.match.params.id]["name"];
+        standard=this.state.data[this.props.match.params.id]["class"];
+        rollNo=this.state.data[this.props.match.params.id]["rollNo"];
+        subjects=this.state.data[this.props.match.params.id]["marks"];
         marks=Object.values(subjects);
         subjectNames=Object.keys(subjects);
           this.setState({
@@ -112,11 +118,7 @@ class StudentDetails extends Component {
           isValid: false
         })
       }
-    }).catch(err=>{
-      this.setState({
-        isFetching: false
-      })   
-    })
+    },300)
 }
 
   render() {
@@ -164,4 +166,19 @@ StudentDetails.propTypes = {
     classes: PropTypes.object.isRequired,
   };
   
-  export default  withStyles(styles)(StudentDetails);
+  const mapStateToProps = state => {
+    return {
+      rawData: state.rawData
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      loadData: () => dispatch(loadData()),
+    };
+  };
+  
+  export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withStyles(styles)
+  )(StudentDetails);

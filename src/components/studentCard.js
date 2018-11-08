@@ -216,11 +216,11 @@ class StudentCard extends Component {
   }
 
   renderCards() {
-    console.log(this.props.students);
     let displayName = [];
+    if(this.state.students!==undefined){
     this.state.students.map((student, index) => {
       displayName.push(
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={index}>
+      <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={index}>
           <div className="our-team">
             <div className="picture">
               <img
@@ -257,47 +257,20 @@ class StudentCard extends Component {
       );
       return displayName;
     });
+}
     return displayName;
   }
 
   componentDidMount = () => {
-    this.props.loadData();
-    let id;
-    let marks;
-    let sum = 0;
-    let totalMarks = [];
-    let students = [];
-    fetch('https://api.myjson.com/bins/1dlper')
-      .then(response => response.json())
-      .then(data => {
-        id = Object.keys(data);
-        id.map(student => {
-          marks = Object.values(data[student]['marks']);
-          marks.map(mark => {
-            sum = sum + mark;
-            return sum;
-          });
-          totalMarks.push(sum);
-          students.push({
-            name: data[student]['name'],
-            rollNo: data[student]['rollNo'],
-            totalMarks: sum
-          });
-          sum = 0;
-          return totalMarks;
-        });
-        this.setState({
-          students,
-          copyForSearch: students
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({
-          isFetching: false
-        })
+    let self=this;
+    setTimeout(()=>{
+      self.setState({
+        students: this.props.students,
+        copyForSearch:this.props.students,
+        isFetching:this.props.isFetching
       });
-  };
+    },500)
+  }
 
   render() {
     const { classes } = this.props;
@@ -420,7 +393,8 @@ The link you followed may be broken, or the page may have been removed.</h1>)
 
 const mapStateToProps = state => {
   return {
-    students: state.students
+    students: state.students,
+    isFetching:state.isFetching
   };
 };
 
