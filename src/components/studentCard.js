@@ -269,7 +269,7 @@ class StudentCard extends Component {
         copyForSearch:this.props.students,
         isFetching:this.props.isFetching
       });
-    },500)
+    },300)
   }
 
   render() {

@@ -42,7 +42,6 @@ class StudentDetails extends Component {
   }
 
   displayMarks(){
-    console.log(this.props.students,'in details');
       let marksDOM=[];
       this.state.marks.map((mark,index)=>{
           marksDOM.push(<h3 key={index}>{this.state.subjectNames[index].toUpperCase()}:{mark}</h3>)
@@ -118,7 +117,7 @@ class StudentDetails extends Component {
           isValid: false
         })
       }
-    },300)
+    },300);
 }
 
   render() {
