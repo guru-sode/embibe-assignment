@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
-import { loadData } from '../redux/actions';
+import { loadData , sortName,sortNameZA,sortMarksLH,sortMarksHL } from '../redux/actions';
 
 const styles = theme => ({
   root: {
@@ -160,39 +160,16 @@ class StudentCard extends Component {
   };
 
   toggleName() {
-    // this.setState({
-    //   nameOpen: true
-    // });
-    // if (toggleNameflag === true) {
-    //   let sortNames = this.state.students.sort(function(a, b) {
-    //     var nameA = a.name.toLowerCase(),
-    //       nameB = b.name.toLowerCase();
-    //     if (nameA < nameB) return -1;
-    //     if (nameA > nameB) return 1;
-    //     return 0;
-    //   });
-    //   let reverse = sortNames.reverse();
-    //   this.setState({
-    //     students: reverse
-    //   });
-    // }
-    // if (toggleNameflag === false) {
-    //   let sortNames = this.state.students.sort(function(a, b) {
-    //     var nameA = a.name.toLowerCase(),
-    //       nameB = b.name.toLowerCase();
-    //     if (nameA < nameB) return -1;
-    //     if (nameA > nameB) return 1;
-    //     return 0;
-    //   });
-    //   this.setState({
-    //     students: sortNames
-    //   });
-    // }
-    // toggleNameflag = toggleNameflag ? false : true;
-    // this.setState({
-    //   students:this.props.sortNames
-    // })
-    console.log(this.props);
+    this.setState({
+      nameOpen: true
+    });
+    if (toggleNameflag === true) {
+      this.props.sortNameZA(this.state.students);
+    }
+    if (toggleNameflag === false) {
+      this.props.sortName(this.state.students);
+    }
+    toggleNameflag = toggleNameflag ? false : true;
   }
 
   toggleMarks() {
@@ -200,21 +177,10 @@ class StudentCard extends Component {
       marksOpen: true
     });
     if (toggleMarksflag === true) {
-      let sortMarks = this.state.students.sort(function(a, b) {
-        return a.totalMarks - b.totalMarks;
-      });
-      let reverse = sortMarks.reverse();
-      this.setState({
-        students: reverse
-      });
+      this.props.sortMarksHL(this.state.students);
     }
     if (toggleMarksflag === false) {
-      let sortMarks = this.state.students.sort(function(a, b) {
-        return a.totalMarks - b.totalMarks;
-      });
-      this.setState({
-        students: sortMarks
-      });
+      this.props.sortMarksLH(this.state.students);
     }
     toggleMarksflag = toggleMarksflag ? false : true;
   }
@@ -399,13 +365,20 @@ const mapStateToProps = state => {
   return {
     students: state.students,
     isFetching:state.isFetching,
-    sortNames:state.sortNames
+    sortNames:state.sortNames,
+    sortNamesZA:state.sortNamesZA,
+    sortMarksHL:state.sortMarksHL,
+    sortMarksLH:state.sortMarksLH
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     loadData: () => dispatch(loadData()),
+    sortName: (data)=>dispatch(sortName(data)),
+    sortNameZA: (data)=>dispatch(sortNameZA(data)),
+    sortMarksLH:(data)=>dispatch(sortMarksLH(data)),
+    sortMarksHL:(data)=>dispatch(sortMarksHL(data))
   };
 };
 

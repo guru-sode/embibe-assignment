@@ -151,7 +151,7 @@ class StudentDetails extends Component {
           </span>
         </span>
     </div>):(
-      <h1>Roll Number not found</h1>
+      <h1>Student not found</h1>
     )
         }
         <div id="highchart-container" style={{minWidth: '310px', maxWidth: '800px', height: '500px', margin: '10%'}}></div>

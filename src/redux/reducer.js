@@ -17,6 +17,21 @@ const mainReducer=(state=defaultState,action)=>{
       ...state,
       sortNames:action.sortStudents
     }
+    case "SORT_NAMES_ZA":
+    return{
+      ...state,
+      sortNamesZA:action.sortNamesZA
+    }
+    case "SORT_MARKS_LH":
+    return{
+      ...state,
+      sortMarksLH:action.sortMarksLH
+    }
+    case "SORT_MARKS_HL":
+    return{
+      ...state,
+      sortMarksHL:state.sortMarksHL
+    }
     default:
     return {
       ...state
