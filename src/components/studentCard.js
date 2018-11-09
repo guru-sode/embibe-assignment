@@ -160,35 +160,39 @@ class StudentCard extends Component {
   };
 
   toggleName() {
-    this.setState({
-      nameOpen: true
-    });
-    if (toggleNameflag === true) {
-      let sortNames = this.state.students.sort(function(a, b) {
-        var nameA = a.name.toLowerCase(),
-          nameB = b.name.toLowerCase();
-        if (nameA < nameB) return -1;
-        if (nameA > nameB) return 1;
-        return 0;
-      });
-      let reverse = sortNames.reverse();
-      this.setState({
-        students: reverse
-      });
-    }
-    if (toggleNameflag === false) {
-      let sortNames = this.state.students.sort(function(a, b) {
-        var nameA = a.name.toLowerCase(),
-          nameB = b.name.toLowerCase();
-        if (nameA < nameB) return -1;
-        if (nameA > nameB) return 1;
-        return 0;
-      });
-      this.setState({
-        student: sortNames
-      });
-    }
-    toggleNameflag = toggleNameflag ? false : true;
+    // this.setState({
+    //   nameOpen: true
+    // });
+    // if (toggleNameflag === true) {
+    //   let sortNames = this.state.students.sort(function(a, b) {
+    //     var nameA = a.name.toLowerCase(),
+    //       nameB = b.name.toLowerCase();
+    //     if (nameA < nameB) return -1;
+    //     if (nameA > nameB) return 1;
+    //     return 0;
+    //   });
+    //   let reverse = sortNames.reverse();
+    //   this.setState({
+    //     students: reverse
+    //   });
+    // }
+    // if (toggleNameflag === false) {
+    //   let sortNames = this.state.students.sort(function(a, b) {
+    //     var nameA = a.name.toLowerCase(),
+    //       nameB = b.name.toLowerCase();
+    //     if (nameA < nameB) return -1;
+    //     if (nameA > nameB) return 1;
+    //     return 0;
+    //   });
+    //   this.setState({
+    //     students: sortNames
+    //   });
+    // }
+    // toggleNameflag = toggleNameflag ? false : true;
+    // this.setState({
+    //   students:this.props.sortNames
+    // })
+    console.log(this.props);
   }
 
   toggleMarks() {
@@ -269,7 +273,7 @@ class StudentCard extends Component {
         copyForSearch:this.props.students,
         isFetching:this.props.isFetching
       });
-    },300)
+    },500)
   }
 
   render() {
@@ -394,7 +398,8 @@ The link you followed may be broken, or the page may have been removed.</h1>)
 const mapStateToProps = state => {
   return {
     students: state.students,
-    isFetching:state.isFetching
+    isFetching:state.isFetching,
+    sortNames:state.sortNames
   };
 };
 
