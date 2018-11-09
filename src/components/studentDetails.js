@@ -117,13 +117,13 @@ class StudentDetails extends Component {
           isValid: false
         })
       }
-    },300);
+    },500);
 }
 
   render() {
     const { classes } = this.props;
     return (
-      this.state.isFetching ?
+      this.state.name!== undefined ?
         <div className="details-container">
         {this.state.name==='' ?
         <div className={classes.progressContainer}>

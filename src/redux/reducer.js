@@ -2,7 +2,6 @@
 let defaultState=[];
 
 const mainReducer=(state=defaultState,action)=>{
-  console.log(action.type);
   switch(action.type){
     case "GET_STUDENTS":
     return {
@@ -12,7 +11,6 @@ const mainReducer=(state=defaultState,action)=>{
       rawData:action.rawData  
     }
     case "SORT_NAMES":
-    console.log(action.sortStudents);
     return{
       ...state,
       sortNames:action.sortStudents
@@ -30,7 +28,12 @@ const mainReducer=(state=defaultState,action)=>{
     case "SORT_MARKS_HL":
     return{
       ...state,
-      sortMarksHL:state.sortMarksHL
+      sortMarksHL:action.sortMarksHL
+    }
+    case "FETCH_FAIL":
+    return{
+      ...state,
+      isFetching:action.isFetching
     }
     default:
     return {

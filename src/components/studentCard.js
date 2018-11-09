@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
-import { loadData , sortName,sortNameZA,sortMarksLH,sortMarksHL } from '../redux/actions';
+import { loadData , sortName , sortNameZA ,sortMarksLH , sortMarksHL } from '../redux/actions';
 
 const styles = theme => ({
   root: {
@@ -108,7 +108,7 @@ class StudentCard extends Component {
       nameOpen: false,
       marksOpen: false,
       searchResult: true,
-      isFetching: true
+      isFetching: true,
     };
     this.renderCards = this.renderCards.bind(this);
     this.handlSearchChange = this.handlSearchChange.bind(this);
@@ -216,7 +216,6 @@ class StudentCard extends Component {
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={this.toggleMarks}
                 >
                   Details
                 </Button>
@@ -231,7 +230,7 @@ class StudentCard extends Component {
     return displayName;
   }
 
-  componentDidMount = () => {
+  componentWillMount = () => {
     let self=this;
     setTimeout(()=>{
       self.setState({
@@ -239,13 +238,13 @@ class StudentCard extends Component {
         copyForSearch:this.props.students,
         isFetching:this.props.isFetching
       });
-    },500)
+    },1000)
   }
 
   render() {
     const { classes } = this.props;
     return (
-      this.state.isFetching ? 
+      this.state.isFetching===true ? 
       <div className="container">
         {this.state.students[0] === undefined  ? (
           <Grid className={classes.progressContainer} container>

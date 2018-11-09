@@ -5,6 +5,8 @@ export function loadData(){
         return axios.get("https://api.myjson.com/bins/1dlper")
         .then(response =>{
             dispatch(getStudents(response.data));
+        }).catch(error=>{
+            dispatch(fetchFailed(error));
         })
     }
 }
@@ -90,4 +92,11 @@ export function sortMarksHL(students){
           type:"SORT_MARKS_HL",
           sortMarksHL: reverse
       };
+}
+
+export function fetchFailed(){
+    return{
+        type:"FETCH_FAIL",
+        isFetching:false
+    }
 }
