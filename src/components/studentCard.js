@@ -363,10 +363,6 @@ const mapStateToProps = state => {
   return {
     students: state.students,
     isFetching:state.isFetching,
-    // sortNames:state.sortNames,
-    // sortNamesZA:state.sortNamesZA,
-    // sortMarksHL:state.sortMarksHL,
-    // sortMarksLH:state.sortMarksLH
   };
 };
 

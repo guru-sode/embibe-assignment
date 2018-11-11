@@ -96,7 +96,7 @@ class StudentDetails extends Component {
       let subjects;
       let marks;
       let subjectNames;
-      if(this.state.data[this.props.match.params.id]!==undefined){
+      if(this.state.data!==undefined && this.state.data[this.props.match.params.id]!==undefined){
         name=this.state.data[this.props.match.params.id]["name"];
         standard=this.state.data[this.props.match.params.id]["class"];
         rollNo=this.state.data[this.props.match.params.id]["rollNo"];
@@ -167,6 +167,7 @@ StudentDetails.propTypes = {
   
   const mapStateToProps = state => {
     return {
+      students: state.students,
       rawData: state.rawData
     };
   };

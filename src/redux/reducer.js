@@ -7,6 +7,7 @@ const mainReducer=(state=defaultState,action)=>{
     return {
       ...state,
       students:action.students,
+      rawData:action.rawData,
       isFetching:action.isFetching, 
     }
     case "SORT_NAMES":

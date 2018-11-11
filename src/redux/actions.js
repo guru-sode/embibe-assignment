@@ -36,8 +36,8 @@ export function getStudents(data){
     return{
         type:"GET_STUDENTS",
         students:students,
+        rawData: data,
         isFetching: true,
-        rawData:data
     }
 }
 
