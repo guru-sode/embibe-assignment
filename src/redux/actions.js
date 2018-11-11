@@ -49,7 +49,6 @@ export function sortName(students){
         if (nameA > nameB) return 1;
         return 0;
       });
-      console.log(sortNames)
       return{
         type:"SORT_NAMES",
         sortStudents:sortNames,

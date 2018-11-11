@@ -117,7 +117,7 @@ class StudentDetails extends Component {
           isValid: false
         })
       }
-    },500);
+    },1000);
 }
 
   render() {

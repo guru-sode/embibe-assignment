@@ -7,33 +7,32 @@ const mainReducer=(state=defaultState,action)=>{
     return {
       ...state,
       students:action.students,
-      isFetching:action.isFetching,
-      rawData:action.rawData  
+      isFetching:action.isFetching, 
     }
     case "SORT_NAMES":
     return{
       ...state,
-      sortNames:action.sortStudents
+      students:action.sortStudents
     }
     case "SORT_NAMES_ZA":
     return{
       ...state,
-      sortNamesZA:action.sortNamesZA
+      students:action.sortNamesZA
     }
     case "SORT_MARKS_LH":
     return{
       ...state,
-      sortMarksLH:action.sortMarksLH
+      students:action.sortMarksLH
     }
     case "SORT_MARKS_HL":
     return{
       ...state,
-      sortMarksHL:action.sortMarksHL
+      students:action.sortMarksHL
     }
     case "FETCH_FAIL":
     return{
       ...state,
-      isFetching:action.isFetching
+      students:action.isFetching
     }
     default:
     return {

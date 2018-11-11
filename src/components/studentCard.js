@@ -231,14 +231,13 @@ class StudentCard extends Component {
   }
 
   componentWillMount = () => {
-    let self=this;
     setTimeout(()=>{
-      self.setState({
+      this.setState({
         students: this.props.students,
         copyForSearch:this.props.students,
         isFetching:this.props.isFetching
       });
-    },1000)
+    },1000);
   }
 
   render() {
@@ -364,10 +363,10 @@ const mapStateToProps = state => {
   return {
     students: state.students,
     isFetching:state.isFetching,
-    sortNames:state.sortNames,
-    sortNamesZA:state.sortNamesZA,
-    sortMarksHL:state.sortMarksHL,
-    sortMarksLH:state.sortMarksLH
+    // sortNames:state.sortNames,
+    // sortNamesZA:state.sortNamesZA,
+    // sortMarksHL:state.sortMarksHL,
+    // sortMarksLH:state.sortMarksLH
   };
 };
 
