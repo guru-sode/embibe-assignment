@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
-import { loadData , sortName , sortNameZA ,sortMarksLH , sortMarksHL } from '../redux/actions';
+import { loadData , sortName , sortNameZA ,sortMarksLH , sortMarksHL,searchNames } from '../redux/actions';
 
 const styles = theme => ({
   root: {
@@ -111,6 +111,7 @@ class StudentCard extends Component {
       searchResult: true,
       isFetching: true,
     };
+    this.props.loadData();
     this.renderCards = this.renderCards.bind(this);
     this.handlSearchChange = this.handlSearchChange.bind(this);
     this.toggleName = this.toggleName.bind(this);
@@ -127,26 +128,17 @@ class StudentCard extends Component {
   }
 
   handlSearchChange(event) {
-    let search = '^' + event.target.value;
-    let flag = 'i';
-    let reg = new RegExp(search, flag);
-    let newStudents = [];
-    this.state.copyForSearch.map(student => {
-      if (reg.test(student['name'])) {
-        newStudents.push(student);
+      let res=this.props.searchNames(this.state.students,event.target.value);
+      if(res.searchResult.length===0){
+        this.setState({
+          searchResult:false
+        })
       }
-      return newStudents;
-    });
-    if (newStudents[0] !== undefined) {
-      this.setState({
-        students: newStudents,
-        searchResult: true
-      });
-    } else {
-      this.setState({
-        searchResult: false
-      });
-    }
+      else{
+        this.setState({
+          searchResult:true
+        })
+      }
   }
 
   handleClose = (event, reason) => {
@@ -165,10 +157,10 @@ class StudentCard extends Component {
       nameOpen: true
     });
     if (toggleNameflag === true) {
-      this.props.sortNameZA(this.state.students);
+      this.props.sortNameZA(this.props.students);
     }
     if (toggleNameflag === false) {
-      this.props.sortName(this.state.students);
+      this.props.sortName(this.props.students);
     }
     toggleNameflag = toggleNameflag ? false : true;
   }
@@ -178,20 +170,20 @@ class StudentCard extends Component {
       marksOpen: true
     });
     if (toggleMarksflag === true) {
-      this.props.sortMarksHL(this.state.students);
+      this.props.sortMarksHL(this.props.students);
     }
     if (toggleMarksflag === false) {
-      this.props.sortMarksLH(this.state.students);
+      this.props.sortMarksLH(this.props.students);
     }
     toggleMarksflag = toggleMarksflag ? false : true;
   }
 
   renderCards() {
     let displayName = [];
-    if(this.state.students!==undefined){
-    this.state.students.map((student, index) => {
+    if(this.props.students!==undefined){
+    this.props.students.map((student, index) => {
       displayName.push(
-        <Grid component={Link} style={{ textDecoration: 'none',color: 'black' }} to={`/${student['rollNo']}`}>
+        <Grid component={Link} style={{ textDecoration: 'none',color: 'black' }} to={`/${student['rollNo']}`} key={index}>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={index}>
           <div className="our-team">
             <div className="picture">
@@ -243,12 +235,13 @@ class StudentCard extends Component {
     },1000);
   }
 
+
   render() {
     const { classes } = this.props;
     return (
-      this.state.isFetching===true ? 
+      this.props.isFetching===true ? 
       <div className="container">
-        {this.state.students[0] === undefined  ? (
+        {this.props.students === undefined  ? (
           <Grid className={classes.progressContainer} container>
             <CircularProgress className={classes.progress} size={100} />
           </Grid>
@@ -271,6 +264,7 @@ class StudentCard extends Component {
                     input: classes.inputInput,
                   }}
                   onChange={this.handlSearchChange}
+                  value={this.props.input}
                 />
               </div>
               <Button
@@ -279,7 +273,7 @@ class StudentCard extends Component {
                   className={classes.button}
                   onClick={this.toggleName}
                 >
-                  Sort by name
+                  {toggleNameflag===false ? 'Sort by name(A-Z)':'Sort by name(Z-A)'}
                 </Button>
                 <Snackbar
                   anchorOrigin={{
@@ -317,7 +311,7 @@ class StudentCard extends Component {
                   className={classes.button}
                   onClick={this.toggleMarks}
                 >
-                  Sort by marks
+                  {toggleMarksflag===false ? 'Sort by marks(low-high)':'Sort by marks(high-low)'}
                 </Button>
                 <Snackbar
                   anchorOrigin={{
@@ -366,7 +360,7 @@ const mapStateToProps = state => {
   return {
     students: state.students,
     isFetching:state.isFetching,
-  };
+    };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -375,7 +369,8 @@ const mapDispatchToProps = dispatch => {
     sortName: (data)=>dispatch(sortName(data)),
     sortNameZA: (data)=>dispatch(sortNameZA(data)),
     sortMarksLH:(data)=>dispatch(sortMarksLH(data)),
-    sortMarksHL:(data)=>dispatch(sortMarksHL(data))
+    sortMarksHL:(data)=>dispatch(sortMarksHL(data)),
+    searchNames:(data,input)=>dispatch(searchNames(data,input))
   };
 };
 

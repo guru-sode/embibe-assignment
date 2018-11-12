@@ -96,6 +96,23 @@ export function sortMarksHL(students){
       };
 }
 
+export function searchNames(students,input){
+    let search = '^' + input;
+    let flag = 'i';
+    let reg = new RegExp(search, flag);
+    let newStudents = [];
+    students.map(student => {
+      if (reg.test(student['name'])) {
+        newStudents.push(student);
+      }
+      return newStudents;
+    });
+    return{
+        type:"SEARCH",
+        searchResult: newStudents,
+    }
+}
+
 export function fetchFailed(){
     return{
         type:"FETCH_FAIL",

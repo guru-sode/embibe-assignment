@@ -17,7 +17,7 @@ const mainReducer=(state=defaultState,action)=>{
     case "SORT_NAMES_ZA":
     return{
       ...state,
-      students:action.sortNamesZA
+      students:action.sortStudentsZA
     }
     case "SORT_MARKS_LH":
     return{
@@ -28,6 +28,11 @@ const mainReducer=(state=defaultState,action)=>{
     return{
       ...state,
       students:action.sortMarksHL
+    }
+    case "SEARCH":
+    return{
+      ...state,
+      students:action.searchResult,
     }
     case "FETCH_FAIL":
     return{
