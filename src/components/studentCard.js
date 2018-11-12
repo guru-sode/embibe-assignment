@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/card.css';
 import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import { Grid } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
@@ -190,6 +191,7 @@ class StudentCard extends Component {
     if(this.state.students!==undefined){
     this.state.students.map((student, index) => {
       displayName.push(
+        <Grid component={Link} style={{ textDecoration: 'none',color: 'black' }} to={`/${student['rollNo']}`}>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={index}>
           <div className="our-team">
             <div className="picture">
@@ -223,6 +225,7 @@ class StudentCard extends Component {
             </div>
           </div>
         </div>
+        </Grid>
       );
       return displayName;
     });

@@ -44,7 +44,7 @@ class StudentDetails extends Component {
   displayMarks(){
       let marksDOM=[];
       this.state.marks.map((mark,index)=>{
-          marksDOM.push(<h3 key={index}>{this.state.subjectNames[index].toUpperCase()}:{mark}</h3>)
+          marksDOM.push(<h3 key={index}>{this.state.subjects[index].toUpperCase()}:{mark}</h3>)
           return marksDOM;
       });
       return marksDOM;
@@ -88,27 +88,27 @@ class StudentDetails extends Component {
     let self=this
     setTimeout(()=>{
       self.setState({
-        data: this.props.rawData
+        data: this.props.students
       });
       let name;
-      let standard;
       let rollNo;
       let subjects;
       let marks;
-      let subjectNames;
-      if(this.state.data!==undefined && this.state.data[this.props.match.params.id]!==undefined){
-        name=this.state.data[this.props.match.params.id]["name"];
-        standard=this.state.data[this.props.match.params.id]["class"];
-        rollNo=this.state.data[this.props.match.params.id]["rollNo"];
-        subjects=this.state.data[this.props.match.params.id]["marks"];
-        marks=Object.values(subjects);
-        subjectNames=Object.keys(subjects);
-          this.setState({
+      // && this.state.data[this.props.match.params.id]!==undefined
+      if(this.state.data!==undefined ){
+        this.state.data.map(students=>{
+          if(students['rollNo']==this.props.match.params.id){
+            name=students['name'];
+            rollNo=this.props.match.params.id;
+            marks=Object.values(students['indMarks']);
+            subjects=Object.keys(students['indMarks']);
+          }
+        });
+                  this.setState({
             name,
-            standard,
             rollNo,
             marks,
-            subjectNames
+            subjects
         });
       }
       else{
@@ -142,14 +142,12 @@ class StudentDetails extends Component {
             Marks obtained:
             {this.displayMarks()}
             <br />
-            <Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
-        Show Graph
-  </Button>
-  <NavLink to="/" style={{ textDecoration: 'none' }}><Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
-        Back
-  </Button></NavLink>
+             {this.showGraph()}
           </span>
         </span>
+        <NavLink to="/" style={{ textDecoration: 'none' }}><Button variant="outlined" color="secondary" className={classes.button} onClick={this.showGraph.bind(this)}>
+        Back
+  </Button></NavLink>
     </div>):(
       <h1>Student not found</h1>
     )
@@ -168,7 +166,6 @@ StudentDetails.propTypes = {
   const mapStateToProps = state => {
     return {
       students: state.students,
-      rawData: state.rawData
     };
   };
   

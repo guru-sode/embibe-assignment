@@ -17,8 +17,10 @@ export function getStudents(data){
     let sum = 0;
     let totalMarks = [];
     let students = [];
+    let indMarks={};
     id = Object.keys(data);
         id.map(student => {
+            indMarks= (data[student]['marks']);
           marks = Object.values(data[student]['marks']);
           marks.map(mark => {
             sum = sum + mark;
@@ -28,7 +30,8 @@ export function getStudents(data){
           students.push({
             name: data[student]['name'],
             rollNo: data[student]['rollNo'],
-            totalMarks: sum
+            totalMarks: sum,
+            indMarks: indMarks,
           });
           sum = 0;
           return totalMarks;
@@ -36,7 +39,6 @@ export function getStudents(data){
     return{
         type:"GET_STUDENTS",
         students:students,
-        rawData: data,
         isFetching: true,
     }
 }
