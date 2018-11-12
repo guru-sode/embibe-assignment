@@ -30,6 +30,7 @@ export function getStudents(data){
           students.push({
             name: data[student]['name'],
             rollNo: data[student]['rollNo'],
+            class:data[student]['class'],
             totalMarks: sum,
             indMarks: indMarks,
           });
