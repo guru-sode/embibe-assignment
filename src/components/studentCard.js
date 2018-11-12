@@ -104,7 +104,7 @@ class StudentCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      students: [],
+      // students: [],
       nameOpen: false,
       marksOpen: false,
       searchResult: true,
@@ -137,7 +137,6 @@ class StudentCard extends Component {
           searchResult:true
         })
       }
-      // this.props.loadData();
   }
 
   handleClose = (event, reason) => {
@@ -222,15 +221,6 @@ class StudentCard extends Component {
     });
 }
     return displayName;
-  }
-
-  componentWillMount = () => {
-    setTimeout(()=>{
-      this.setState({
-        students: this.props.students,
-        isFetching:this.props.isFetching
-      });
-    },1000);
   }
 
 
