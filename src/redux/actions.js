@@ -110,6 +110,7 @@ export function searchNames(students,input){
     return{
         type:"SEARCH",
         searchResult: newStudents,
+        input:input
     }
 }
 

@@ -105,13 +105,11 @@ class StudentCard extends Component {
     super(props);
     this.state = {
       students: [],
-      copyForSearch: [],
       nameOpen: false,
       marksOpen: false,
       searchResult: true,
       isFetching: true,
     };
-    this.props.loadData();
     this.renderCards = this.renderCards.bind(this);
     this.handlSearchChange = this.handlSearchChange.bind(this);
     this.toggleName = this.toggleName.bind(this);
@@ -128,7 +126,7 @@ class StudentCard extends Component {
   }
 
   handlSearchChange(event) {
-      let res=this.props.searchNames(this.state.students,event.target.value);
+      let res=this.props.searchNames(this.props.state,event.target.value);
       if(res.searchResult.length===0){
         this.setState({
           searchResult:false
@@ -139,6 +137,7 @@ class StudentCard extends Component {
           searchResult:true
         })
       }
+      // this.props.loadData();
   }
 
   handleClose = (event, reason) => {
@@ -229,7 +228,6 @@ class StudentCard extends Component {
     setTimeout(()=>{
       this.setState({
         students: this.props.students,
-        copyForSearch:this.props.students,
         isFetching:this.props.isFetching
       });
     },1000);
@@ -239,7 +237,7 @@ class StudentCard extends Component {
   render() {
     const { classes } = this.props;
     return (
-      this.props.isFetching===true ? 
+      (this.props.isFetching===true || this.props.isFetching===undefined)  ? 
       <div className="container">
         {this.props.students === undefined  ? (
           <Grid className={classes.progressContainer} container>
@@ -358,8 +356,10 @@ The link you followed may be broken, or the page may have been removed.</h1>)
 
 const mapStateToProps = state => {
   return {
+    state:state.state,
     students: state.students,
     isFetching:state.isFetching,
+    input:state.input
     };
 };
 

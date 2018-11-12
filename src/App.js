@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter, Route  } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import StudentDetails from './components/studentDetails';
 import Login from './components/login';
 import ErrorComp from './components/errorComp';
@@ -9,22 +9,22 @@ import { compose } from 'redux';
 import { loadData } from '../src/redux/actions';
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.props.loadData();
   }
   render() {
     // document.cookie.split(";")
-    // .forEach(function (c) { 
+    // .forEach(function (c) {
     //   document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/")});
     console.log(document.cookie, 'in APP');
     return (
       <BrowserRouter>
-      <div className="App">
-      <Route exact path="/" component={Login} />
-      <Route  exact path="/:id" component={StudentDetails}/>
-      <Route path="/:id/*"component={ErrorComp} />
-      </div>
+        <div className="App">
+          <Route exact path="/" component={Login} />
+          <Route exact path="/:id" component={StudentDetails} />
+          <Route path="/:id/*" component={ErrorComp} />
+        </div>
       </BrowserRouter>
     );
   }
@@ -38,10 +38,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadData: () => dispatch(loadData()),
+    loadData: () => dispatch(loadData())
   };
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(App);

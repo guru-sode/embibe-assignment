@@ -5,7 +5,7 @@ const mainReducer=(state=defaultState,action)=>{
   switch(action.type){
     case "GET_STUDENTS":
     return {
-      ...state,
+      state:action.students,
       students:action.students,
       isFetching:action.isFetching, 
     }
@@ -33,11 +33,12 @@ const mainReducer=(state=defaultState,action)=>{
     return{
       ...state,
       students:action.searchResult,
+      input:action.input
     }
     case "FETCH_FAIL":
     return{
       ...state,
-      students:action.isFetching
+      isFetching:action.isFetching
     }
     default:
     return {
